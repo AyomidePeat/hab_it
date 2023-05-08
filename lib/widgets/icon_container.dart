@@ -7,20 +7,42 @@ import '../utils/theme.dart';
 class IconContainer extends ConsumerWidget {
   final bool isPressed;
   final String icon;
-  const IconContainer({super.key, required this.isPressed, required this.icon});
+  final selectIcon;
+  const IconContainer({
+    super.key,
+    required this.isPressed,
+    required this.icon,
+    required this.selectIcon,
+  });
 
   @override
   Widget build(BuildContext context, ref) {
     final theme = ref.watch(themeNotifierProvider);
-    return Container(
-        height: 40,
-        width: 35,
-        decoration:
-             BoxDecoration(shape: BoxShape.circle, color:theme.isDarkModeOn?blueGrey: Color.fromARGB(26, 162, 25, 25) ,),
-        child: Column(mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SvgPicture.asset(icon, color:theme.isDarkModeOn ?Colors.white : Colors.black, fit: BoxFit.contain,height: 15, ),
-          ],
-        ));
+    return InkWell(
+      onTap: () {
+        selectIcon();
+      },
+      child: Container(
+          height: 40,
+          width: 35,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            border:
+                isPressed ? Border.all(width: 2,  color:theme.isDarkModeOn ? Colors.white: Colors.black) : null,
+            color:
+                theme.isDarkModeOn ? blueGrey : Color.fromARGB(26, 162, 25, 25),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SvgPicture.asset(
+                icon,
+                color: theme.isDarkModeOn ? Colors.white : Colors.black,
+                fit: BoxFit.contain,
+                height: 15,
+              ),
+            ],
+          )),
+    );
   }
 }

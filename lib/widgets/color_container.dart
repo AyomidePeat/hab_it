@@ -22,20 +22,21 @@ final selectContainer;
 class _ColorContainerState extends State<ColorContainer> {
   @override
   Widget build(BuildContext context) {
-    return InkWell(
+    return GestureDetector(
       onTap: () {
         
           widget.selectContainer();
-          //widget.isPressed = !widget.isPressed;
         
-        print('Container is ${widget.isPressed}');
       },
       child: Container(
         height: 40,
         width: 35,
         decoration: BoxDecoration(shape: BoxShape.circle, color: widget.color),
         child: widget.isPressed
-            ? SvgPicture.asset('images/check.svg')
+            ? Center(
+              child: SvgPicture.asset('images/check.svg',  color:Colors.white, fit: BoxFit.contain,
+                  height: 20,),
+            )
             : const Text(''),
       ),
     );

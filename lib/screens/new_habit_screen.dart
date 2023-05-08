@@ -164,34 +164,72 @@ class _NewHabitScreenState extends State<NewHabitScreen> {
               const SizedBox(
                 height: 5,
               ),
-              ConstrainedBox(
-                  constraints: BoxConstraints(maxHeight: 200),
-                  child: GridView.builder(
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 5,
-                              mainAxisExtent: 40,
-                              mainAxisSpacing: 7,
-                              crossAxisSpacing: 15),
-                      itemCount: icons.length,
-                      itemBuilder: (context, index) {
-                        return IconContainer(
-                            isPressed: isPressed, icon: icons[index]);
-                      })),
-              ColorContainer(
-                  color: red,
-                  isPressed: isPressed,
-                  index: 1,
-                  selectContainer: () {
-                    setState(() {
-                      isPressed = !isPressed;
-                    });
-                  })
+              const IconRow(),
             ],
           ),
         ),
       ),
     );
+  }
+}
+
+class IconRow extends StatefulWidget {
+  const IconRow({
+    super.key,
+  
+  });
+
+ 
+
+  @override
+  State<IconRow> createState() => _IconRowState();
+}
+
+class _IconRowState extends State<IconRow> {
+  List<bool> iconStates = [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+  ];
+  void selectIcon(int index) {
+    setState(() {
+      iconStates = iconStates.map((state) => false).toList();
+      iconStates[index] = true;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ConstrainedBox(
+        constraints: const BoxConstraints(maxHeight: 200),
+        child: GridView.builder(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 5,
+                mainAxisExtent: 40,
+                mainAxisSpacing: 7,
+                crossAxisSpacing: 15),
+            itemCount: icons.length,
+            itemBuilder: (context, index) {
+              return IconContainer(
+                isPressed: iconStates[index],
+                icon: icons[index],
+                selectIcon: () {
+                  selectIcon(index);
+                },
+              );
+            }));
   }
 }
 
@@ -206,9 +244,18 @@ class ColorRow extends StatefulWidget {
 
 class _ColorRowState extends State<ColorRow> {
   List colors = [red, amber, green, purple, indigo, blueGrey, grey];
-List<bool> containerStates = [false, false, false, false, false, false, false];
+  List<bool> containerStates = [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+  ];
 
-   void selectContainer(int index) {
+  void selectContainer(int index) {
     setState(() {
       containerStates = containerStates.map((state) => false).toList();
       containerStates[index] = true;
@@ -217,19 +264,20 @@ List<bool> containerStates = [false, false, false, false, false, false, false];
 
   @override
   Widget build(BuildContext context) {
-   
     return ConstrainedBox(
       constraints: const BoxConstraints(maxHeight: 50),
       child: GridView.builder(
           itemCount: 7,
-          gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: colors.length,
-            crossAxisSpacing: 7,
+            crossAxisSpacing: 7, mainAxisExtent:40 
           ),
           itemBuilder: (context, index) {
             return ColorContainer(
-              selectContainer:  (){selectContainer(index);},
-              //containerFuunctions[index],
+              selectContainer: () {
+                selectContainer(index);
+              },
+             
               color: colors[index],
               index: index,
               isPressed: containerStates[index],
