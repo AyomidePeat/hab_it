@@ -1,0 +1,17 @@
+List icons = [
+  'images/bitcoin-sign.svg',
+  'images/book-open.svg',
+  'images/briefcase-medical.svg',
+  'images/briefcase.svg',
+  'images/calculator.svg',
+  'images/cart-shopping.svg',
+  'images/chart-waterfall.svg',
+  'images/chart-waterfall.svg',
+  'images/cheese.svg',
+  'images/clock.svg',
+  'images/cloud-rain.svg',
+  'images/desktop-computer.svg',
+  'images/headphones.svg',
+  'images/hospital.svg',
+  'images/tv.svg',
+];
