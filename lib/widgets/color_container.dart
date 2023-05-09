@@ -37,7 +37,7 @@ class _ColorContainerState extends State<ColorContainer> {
               child: SvgPicture.asset('images/check.svg',  color:Colors.white, fit: BoxFit.contain,
                   height: 20,),
             )
-            : const Text(''),
+            : null,
       ),
     );
   }

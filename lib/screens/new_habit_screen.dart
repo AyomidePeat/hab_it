@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hab_it/widgets/theme_button.dart';
 import '../utils/colors.dart';
 import '../utils/icons.dart';
@@ -12,33 +13,23 @@ import '../widgets/icon_container.dart';
 import '../widgets/text_field_widget.dart';
 import 'frequency_screen.dart';
 
-class NewHabitScreen extends StatefulWidget {
+final iconProvider = Provider<IconRow>((ref) {
+  return IconRow();
+});
+final habitProvider = StateProvider<NewHabitScreen>((ref) {
+  return NewHabitScreen();
+});
+
+class NewHabitScreen extends ConsumerStatefulWidget {
   const NewHabitScreen({super.key});
 
   @override
-  State<NewHabitScreen> createState() => _NewHabitScreenState();
+  ConsumerState<NewHabitScreen> createState() => _NewHabitScreenConsumerState();
 }
 
-class _NewHabitScreenState extends State<NewHabitScreen> {
+class _NewHabitScreenConsumerState extends ConsumerState<NewHabitScreen> {
   bool isNotified = false;
-
   bool isSwitched = false;
-  bool isPressed = true;
-
-  int freq = 1;
-  void increment() {
-    setState(() {
-      freq++;
-    });
-  }
-
-  void decrement() {
-    if (freq > 1) {
-      setState(() {
-        freq--;
-      });
-    }
-  }
 
   void toggleSwitch(bool value) {
     if (isSwitched == false) {
@@ -54,6 +45,7 @@ class _NewHabitScreenState extends State<NewHabitScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final habitProviderRef = ref.watch(habitProvider);
     final size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
@@ -173,35 +165,35 @@ class _NewHabitScreenState extends State<NewHabitScreen> {
   }
 }
 
-class IconRow extends StatefulWidget {
+class IconRow extends ConsumerStatefulWidget {
   const IconRow({
     super.key,
-  
   });
 
- 
-
   @override
-  State<IconRow> createState() => _IconRowState();
+  ConsumerState<IconRow> createState() => _IconRowState();
 }
 
-class _IconRowState extends State<IconRow> {
-  List<bool> iconStates = [
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
+class _IconRowState extends ConsumerState<IconRow> {
+  bool icon1 = false;
+ bool  icon2= false; 
+  bool icon3= false;
+ bool  icon4= false; 
+ bool  icon5= false;
+ bool  icon6= false; 
+ bool  icon7= false;
+ bool  icon8= false;
+  bool icon9= false;
+ bool  icon10= false; 
+ bool  icon11= false;
+ bool  icon12= false;
+ bool  icon13= false;
+ bool   icon14= false; 
+  bool  icon15= false;
+  @override
+ 
+  late List<bool> iconStates = [
+  icon1, icon2, icon3, icon4, icon5, icon6, icon7, icon8, icon9, icon10, icon11,icon12, icon13, icon14, icon15,
   ];
   void selectIcon(int index) {
     setState(() {
@@ -269,15 +261,14 @@ class _ColorRowState extends State<ColorRow> {
       child: GridView.builder(
           itemCount: 7,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: colors.length,
-            crossAxisSpacing: 7, mainAxisExtent:40 
-          ),
+              crossAxisCount: colors.length,
+              crossAxisSpacing: 7,
+              mainAxisExtent: 40),
           itemBuilder: (context, index) {
             return ColorContainer(
               selectContainer: () {
                 selectContainer(index);
               },
-             
               color: colors[index],
               index: index,
               isPressed: containerStates[index],

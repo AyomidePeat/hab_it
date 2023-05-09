@@ -7,8 +7,9 @@ final themeNotifierProvider = ChangeNotifierProvider<ThemeNotifier>((ref) {
 final lightTheme = ThemeData(fontFamily: 'nexa',
   brightness: Brightness.light,
   primaryColor: Colors.blueGrey,
+  primarySwatch:Colors.blueGrey ,
      accentColor: Colors.blueGrey,
-  scaffoldBackgroundColor: Color.fromARGB(255, 255, 247, 247),
+  scaffoldBackgroundColor: Color.fromARGB(255, 255, 247, 247 ),
   textTheme: const TextTheme(
     displayLarge: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color:Colors.black),
     displayMedium: TextStyle(fontSize: 22, fontWeight: FontWeight.bold,color:Colors.black),
@@ -37,9 +38,9 @@ final darkTheme = ThemeData(fontFamily: 'nexa',
 );
 
 class ThemeNotifier extends ChangeNotifier {
-  bool isDarkModeOn = true;
+  bool isDarkModeOn = false;
 
-  ThemeData _themeData = darkTheme;
+  ThemeData _themeData = lightTheme;
   ThemeData getTheme() => _themeData;
 
   void toggleTheme() {
