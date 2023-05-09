@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hab_it/screens/homescreen.dart';
+import 'package:hab_it/utils/state.dart';
 import 'package:hab_it/widgets/theme_button.dart';
 import '../utils/colors.dart';
 import '../utils/icons.dart';
@@ -157,6 +159,8 @@ class _NewHabitScreenConsumerState extends ConsumerState<NewHabitScreen> {
                 height: 5,
               ),
               const IconRow(),
+              SizedBox(height:20),
+              IconButton(onPressed: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()) ), icon: Icon(Icons.forward))
             ],
           ),
         ),
@@ -175,35 +179,9 @@ class IconRow extends ConsumerStatefulWidget {
 }
 
 class _IconRowState extends ConsumerState<IconRow> {
-  bool icon1 = false;
- bool  icon2= false; 
-  bool icon3= false;
- bool  icon4= false; 
- bool  icon5= false;
- bool  icon6= false; 
- bool  icon7= false;
- bool  icon8= false;
-  bool icon9= false;
- bool  icon10= false; 
- bool  icon11= false;
- bool  icon12= false;
- bool  icon13= false;
- bool   icon14= false; 
-  bool  icon15= false;
-  @override
- 
-  late List<bool> iconStates = [
-  icon1, icon2, icon3, icon4, icon5, icon6, icon7, icon8, icon9, icon10, icon11,icon12, icon13, icon14, icon15,
-  ];
-  void selectIcon(int index) {
-    setState(() {
-      iconStates = iconStates.map((state) => false).toList();
-      iconStates[index] = true;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
+    final iconRef = ref.watch(iconStateProvider);
     return ConstrainedBox(
         constraints: const BoxConstraints(maxHeight: 200),
         child: GridView.builder(
@@ -215,10 +193,10 @@ class _IconRowState extends ConsumerState<IconRow> {
             itemCount: icons.length,
             itemBuilder: (context, index) {
               return IconContainer(
-                isPressed: iconStates[index],
+                isPressed: iconRef.iconStates[index],
                 icon: icons[index],
                 selectIcon: () {
-                  selectIcon(index);
+                  iconRef.selectIcon(index);
                 },
               );
             }));

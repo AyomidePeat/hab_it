@@ -17,8 +17,7 @@ final lightTheme = ThemeData(fontFamily: 'nexa',
     bodyLarge: TextStyle(fontSize: 16,color:Colors.black),
     bodyMedium: TextStyle(fontSize: 14,color:Colors.black),
      bodySmall: TextStyle(fontSize: 12,color:Colors.black ),
-  ),colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.black),
-  
+  ),colorScheme: ColorScheme.fromSwatch().copyWith(secondary: Colors.black), 
 );
 
 final darkTheme = ThemeData(fontFamily: 'nexa',
