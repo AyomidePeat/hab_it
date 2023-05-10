@@ -3,14 +3,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hab_it/screens/homescreen.dart';
 import 'package:hab_it/screens/new_habit_screen.dart';
 
+
 import 'package:hab_it/utils/theme.dart';
 
 void main() {
+
   runApp(
     const ProviderScope(
       child: MyApp(),
     ),
   );
+   
 }
 
 class MyApp extends ConsumerWidget {

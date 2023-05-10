@@ -3,24 +3,20 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hab_it/screens/homescreen.dart';
-import 'package:hab_it/utils/state.dart';
+import 'package:hab_it/utils/providers/iconprovider.dart';
 import 'package:hab_it/widgets/theme_button.dart';
 import '../utils/colors.dart';
 import '../utils/icons.dart';
+import '../utils/providers/colorprovider.dart';
+import '../utils/providers/habitprovider.dart';
 import '../utils/textstyle.dart';
 import '../widgets/color_container.dart';
-import '../widgets/custom_elevlated_button.dart';
 import '../widgets/custom_text_button.dart';
 import '../widgets/icon_container.dart';
 import '../widgets/text_field_widget.dart';
 import 'frequency_screen.dart';
 
-final iconProvider = Provider<IconRow>((ref) {
-  return IconRow();
-});
-final habitProvider = StateProvider<NewHabitScreen>((ref) {
-  return NewHabitScreen();
-});
+
 
 class NewHabitScreen extends ConsumerStatefulWidget {
   const NewHabitScreen({super.key});
@@ -159,8 +155,11 @@ class _NewHabitScreenConsumerState extends ConsumerState<NewHabitScreen> {
                 height: 5,
               ),
               const IconRow(),
-              SizedBox(height:20),
-              IconButton(onPressed: ()=>Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()) ), icon: Icon(Icons.forward))
+              SizedBox(height: 20),
+              IconButton(
+                  onPressed: () => Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => HomeScreen())),
+                  icon: Icon(Icons.forward))
             ],
           ),
         ),
@@ -181,7 +180,7 @@ class IconRow extends ConsumerStatefulWidget {
 class _IconRowState extends ConsumerState<IconRow> {
   @override
   Widget build(BuildContext context) {
-    final iconRef = ref.watch(iconStateProvider);
+    final iconRef = ref.watch(iconProvider);
     return ConstrainedBox(
         constraints: const BoxConstraints(maxHeight: 200),
         child: GridView.builder(
@@ -203,37 +202,19 @@ class _IconRowState extends ConsumerState<IconRow> {
   }
 }
 
-class ColorRow extends StatefulWidget {
+class ColorRow extends ConsumerStatefulWidget {
   ColorRow({
     super.key,
   });
 
   @override
-  State<ColorRow> createState() => _ColorRowState();
+  ConsumerState<ColorRow> createState() => _ColorRowState();
 }
 
-class _ColorRowState extends State<ColorRow> {
-  List colors = [red, amber, green, purple, indigo, blueGrey, grey];
-  List<bool> containerStates = [
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-  ];
-
-  void selectContainer(int index) {
-    setState(() {
-      containerStates = containerStates.map((state) => false).toList();
-      containerStates[index] = true;
-    });
-  }
-
+class _ColorRowState extends ConsumerState<ColorRow> {
   @override
   Widget build(BuildContext context) {
+    final colorRef = ref.watch(colorProvider);
     return ConstrainedBox(
       constraints: const BoxConstraints(maxHeight: 50),
       child: GridView.builder(
@@ -245,11 +226,11 @@ class _ColorRowState extends State<ColorRow> {
           itemBuilder: (context, index) {
             return ColorContainer(
               selectContainer: () {
-                selectContainer(index);
+                colorRef.selectContainer(index);
               },
               color: colors[index],
               index: index,
-              isPressed: containerStates[index],
+              isPressed: colorRef.colorStates[index],
             );
           }),
     );

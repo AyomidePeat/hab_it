@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'icons.dart';
+import '../icons.dart';
 
-final iconStateProvider = ChangeNotifierProvider<IconNotifier>((ref) {
+final iconProvider = ChangeNotifierProvider<IconNotifier>((ref) {
   return IconNotifier();
 });
 
