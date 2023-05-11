@@ -1,27 +1,17 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'colorProvider.dart';
-import 'frequencyprovider.dart';
-import 'iconprovider.dart';
 
-final habitProvider = StateNotifierProvider<HabitNotifier, List>((ref) {
-  return HabitNotifier(ref);
+import '../../model/habit_model.dart';
+import '../../widgets/habit_container.dart';
+
+final HabitStateNotifierProvider = StateNotifierProvider<HabitStateNotifier, List<Habit>>((ref){
+  return HabitStateNotifier();
 });
+class HabitStateNotifier extends StateNotifier<List<Habit>> {
+  HabitStateNotifier() : super([]);
 
-class HabitNotifier extends StateNotifier<List<bool>> {
-  HabitNotifier(this.ref): super([]);
-  final Ref ref;
-  late final iconProviderRef = ref.watch(iconProvider);
-  late final colorProviderRef = ref.watch(colorProvider);
-  late final frequencyProviderRef = ref.watch(frequencyProvider);
-  late var selectedIcon ;
-  late var selectedColor;
-  late var selectedFrequency = frequencyProviderRef.days;
-@override
-  void notifyListeners() {
-    selectedIcon = iconProviderRef.selectedIcon;
-    selectedColor = colorProviderRef.selectedColor;
-     selectedFrequency = frequencyProviderRef.days;
-    //super.notifyListeners();
+  void addHabit(Habit habit) {
+   print('Current state: $state');
+  state = [...state, habit];
+  print('New state: $state');
   }
 }

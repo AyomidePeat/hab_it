@@ -27,7 +27,7 @@ class MyApp extends ConsumerWidget {
       debugShowCheckedModeBanner: false,
       title: 'Your App',
       theme: theme.getTheme(),
-      home: const NewHabitScreen(),
+      home: const HomeScreen(),
     );
   }
 }

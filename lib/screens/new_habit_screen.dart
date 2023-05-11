@@ -2,8 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hab_it/model/habit_model.dart';
 import 'package:hab_it/screens/homescreen.dart';
 import 'package:hab_it/utils/providers/iconprovider.dart';
+import 'package:hab_it/widgets/habit_container.dart';
 import 'package:hab_it/widgets/theme_button.dart';
 import '../utils/colors.dart';
 import '../utils/icons.dart';
@@ -16,8 +18,6 @@ import '../widgets/icon_container.dart';
 import '../widgets/text_field_widget.dart';
 import 'frequency_screen.dart';
 
-
-
 class NewHabitScreen extends ConsumerStatefulWidget {
   const NewHabitScreen({super.key});
 
@@ -28,6 +28,22 @@ class NewHabitScreen extends ConsumerStatefulWidget {
 class _NewHabitScreenConsumerState extends ConsumerState<NewHabitScreen> {
   bool isNotified = false;
   bool isSwitched = false;
+  final habitNameController = TextEditingController();
+  final reminderTextController = TextEditingController();
+  @override
+  void initState() {
+    super.initState();
+    
+    habitNameController.text = '';
+    reminderTextController.text = '';
+  }
+  @override
+  void dispose() {
+    habitNameController.dispose();
+    reminderTextController.dispose();
+    
+    super.dispose();
+  }
 
   void toggleSwitch(bool value) {
     if (isSwitched == false) {
@@ -41,10 +57,19 @@ class _NewHabitScreenConsumerState extends ConsumerState<NewHabitScreen> {
     }
   }
 
+
   @override
   Widget build(BuildContext context) {
-    final habitProviderRef = ref.watch(habitProvider);
+    final colorRef = ref.watch(colorProvider);
+    final iconRef = ref.watch(iconProvider);
+    final habitRef = ref.watch(HabitStateNotifierProvider);
     final size = MediaQuery.of(context).size;
+    final habit = Habit(
+        habitName: habitNameController.text,
+        reminderText: reminderTextController.text,
+        color: colorRef.selectedColor,
+        icon: iconRef.selectedIcon
+        );debugPrint(habit.toString());
     return Scaffold(
       appBar: AppBar(
           elevation: 0,
@@ -56,7 +81,10 @@ class _NewHabitScreenConsumerState extends ConsumerState<NewHabitScreen> {
               CustomTextButton(onPressed: () {}, text: 'cancel'),
               Text('New Habit', style: headline3(context)),
               CustomTextButton(
-                onPressed: () {},
+                onPressed: () {
+                  ref.read(HabitStateNotifierProvider.notifier).addHabit(habit);
+                  Navigator.pop(context);
+                },
                 text: 'Done',
               )
             ],
@@ -67,7 +95,7 @@ class _NewHabitScreenConsumerState extends ConsumerState<NewHabitScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const TextFieldWidget(hint: 'Title'),
+              TextFieldWidget(hint: 'Title', controller: habitNameController,  ),
               const SizedBox(
                 height: 15,
               ),
@@ -134,11 +162,17 @@ class _NewHabitScreenConsumerState extends ConsumerState<NewHabitScreen> {
                 children: [
                   SizedBox(
                     width: size.width * 0.3,
-                    child: const TextFieldWidget(hint: 'Time'),
+                    child: TextFieldWidget(
+                      hint: 'Time',
+                      controller: reminderTextController,
+                    ),
                   ),
                   SizedBox(
                       width: size.width * 0.57,
-                      child: const TextFieldWidget(hint: 'Reminder text')),
+                      child: TextFieldWidget(
+                        hint: 'Reminder text',
+                        controller: reminderTextController,
+                      )),
                 ],
               ),
               const SizedBox(

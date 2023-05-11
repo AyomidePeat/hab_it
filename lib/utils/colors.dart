@@ -9,4 +9,4 @@ Color indigo = Colors.indigo;
 Color blueGrey = Colors.blueGrey;
 Color deepBlue = const Color(0xFF1E293B);
 
-  List colors = [red, amber, green, purple, indigo, blueGrey, grey];
+  List <Color> colors = [red, amber, green, purple, indigo, blueGrey, grey];

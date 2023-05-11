@@ -41,17 +41,17 @@ class IconNotifier extends ChangeNotifier {
     icon14,
     icon15,
   ];
-var selectedIndex = 0;
-late var selectedIcon = icons[selectedIndex];
+  var selectedIndex=0;
+  
   selectIcon(int index) {
-    
     iconStates = iconStates.map((state) => false).toList();
     iconStates[index] = true;
     notifyListeners();
     if (iconStates[index] == true) {
       selectedIndex = index;
     }
-    print('selectedIcon: $selectedIndex');
-     notifyListeners();
+    selectedIcon = icons[selectedIndex];
+    notifyListeners();
   }
+ late var selectedIcon= icons[selectedIndex];
 }

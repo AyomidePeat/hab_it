@@ -25,7 +25,8 @@ class ColorNotifier extends ChangeNotifier {
     grey
   ];
   var selectedIndex = 0;
-  late var selectedColor = colors[selectedIndex];
+  
+ 
   void selectContainer(int index) {
     colorStates = colorStates.map((state) => false).toList();
     colorStates[index] = true;
@@ -33,6 +34,9 @@ class ColorNotifier extends ChangeNotifier {
     if (colorStates[index] == true) {
       selectedIndex = index;
     }
+     print('selectedColor: $selectedColor');
+     selectedColor= colors[selectedIndex];
     notifyListeners();
   }
+  late var selectedColor = colors[selectedIndex];
 }
