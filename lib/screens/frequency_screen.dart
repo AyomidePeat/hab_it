@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hab_it/utils/colors.dart';
-import 'package:hab_it/utils/providers/frequencyprovider.dart';
+import 'package:hab_it/utils/providers/frequency_provider.dart';
 import 'package:hab_it/widgets/custom_elevlated_button.dart';
 import '../utils/textstyle.dart';
 import '../utils/theme.dart';

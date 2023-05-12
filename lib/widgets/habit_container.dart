@@ -18,7 +18,8 @@ class HabitContainer extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    
+        final theme = ref.watch(themeNotifierProvider);
+
     return Container(
         height: 150,
         width: double.infinity,
@@ -30,7 +31,7 @@ class HabitContainer extends ConsumerWidget {
           children: [
          // ...habitName,
          Text('$habitName', overflow: TextOverflow.fade,),
-         SvgPicture.asset(icon),
+         SvgPicture.asset(icon, color: theme.isDarkModeOn ? Colors.white: Colors.black ,),
           Text(reminderText),
           ],
         ));

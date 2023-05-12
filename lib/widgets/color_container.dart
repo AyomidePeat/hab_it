@@ -3,11 +3,11 @@ import 'package:flutter_svg/svg.dart';
 
 class ColorContainer extends StatefulWidget {
   final Color color;
-  bool isPressed;
+ final bool isPressed;
   final int index;
 final selectContainer;
 
-  ColorContainer({
+  const ColorContainer({
     super.key,
     required this.color,
     required this.isPressed,

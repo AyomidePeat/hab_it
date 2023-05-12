@@ -3,14 +3,12 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hab_it/model/habit_model.dart';
-import 'package:hab_it/screens/homescreen.dart';
-import 'package:hab_it/utils/providers/iconprovider.dart';
-import 'package:hab_it/widgets/habit_container.dart';
+import 'package:hab_it/utils/providers/icon_provider.dart';
 import 'package:hab_it/widgets/theme_button.dart';
 import '../utils/colors.dart';
 import '../utils/icons.dart';
-import '../utils/providers/colorprovider.dart';
-import '../utils/providers/habitprovider.dart';
+import '../utils/providers/color_provider.dart';
+import '../utils/providers/habit_provider.dart';
 import '../utils/textstyle.dart';
 import '../widgets/color_container.dart';
 import '../widgets/custom_text_button.dart';
@@ -29,19 +27,20 @@ class _NewHabitScreenConsumerState extends ConsumerState<NewHabitScreen> {
   bool isNotified = false;
   bool isSwitched = false;
   final habitNameController = TextEditingController();
-  final reminderTextController = TextEditingController();
+  TextEditingController reminderTextController = TextEditingController();
   @override
   void initState() {
     super.initState();
-    
+
     habitNameController.text = '';
     reminderTextController.text = '';
   }
+
   @override
   void dispose() {
     habitNameController.dispose();
     reminderTextController.dispose();
-    
+
     super.dispose();
   }
 
@@ -56,20 +55,17 @@ class _NewHabitScreenConsumerState extends ConsumerState<NewHabitScreen> {
       });
     }
   }
-
-
+  String withdrawalOption = 'Dispensing';
   @override
   Widget build(BuildContext context) {
     final colorRef = ref.watch(colorProvider);
     final iconRef = ref.watch(iconProvider);
-    final habitRef = ref.watch(HabitStateNotifierProvider);
     final size = MediaQuery.of(context).size;
     final habit = Habit(
-        habitName: habitNameController.text,
-        reminderText: reminderTextController.text,
+        habitName: habitNameController.text.trim(),
+        reminderText: reminderTextController.text.trim(),
         color: colorRef.selectedColor,
-        icon: iconRef.selectedIcon
-        );debugPrint(habit.toString());
+        icon: iconRef.selectedIcon);
     return Scaffold(
       appBar: AppBar(
           elevation: 0,
@@ -77,13 +73,47 @@ class _NewHabitScreenConsumerState extends ConsumerState<NewHabitScreen> {
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              ThemeButton(),
-              CustomTextButton(onPressed: () {}, text: 'cancel'),
+              const ThemeButton(),
+              CustomTextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  text: 'cancel'),
               Text('New Habit', style: headline3(context)),
               CustomTextButton(
                 onPressed: () {
-                  ref.read(HabitStateNotifierProvider.notifier).addHabit(habit);
-                  Navigator.pop(context);
+                  if (habit.habitName.isEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Center(child: Text('Please enter a title')),
+                    ));
+                  } else if (habit.icon == '') {
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Center(child: Text('Please select an icon')),
+                    ));
+                  } else if (habit.color == Colors.white) {
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Center(child: Text('Please select a colour')),
+                    ));
+                  } else if (isSwitched == true && habit.reminderText!.isEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content:
+                          Center(child: Text('Please enter a reminder text')),
+                    ));
+                  }
+                  //  else if (isSwitched == false &&
+                  //     habit.reminderText!.isEmpty) {
+                    
+                  //     habit.reminderText = 'No reminder text';
+                    
+                  // }
+                   else {
+                    ref
+                        .read(habitStateNotifierProvider.notifier)
+                        .addHabit(habit);
+                    Navigator.pop(context);
+                  }
+
+                  // :
                 },
                 text: 'Done',
               )
@@ -95,11 +125,14 @@ class _NewHabitScreenConsumerState extends ConsumerState<NewHabitScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              TextFieldWidget(hint: 'Title', controller: habitNameController,  ),
+              TextFieldWidget(
+                hint: 'Title',
+                controller: habitNameController,
+              ),
               const SizedBox(
                 height: 15,
               ),
-              ColorRow(),
+              const ColorRow(),
               const SizedBox(
                 height: 15,
               ),
@@ -160,13 +193,29 @@ class _NewHabitScreenConsumerState extends ConsumerState<NewHabitScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  SizedBox(
-                    width: size.width * 0.3,
-                    child: TextFieldWidget(
-                      hint: 'Time',
-                      controller: reminderTextController,
-                    ),
-                  ),
+                    // DropdownButton<String>(
+                    //       dropdownColor: const Color.fromARGB(255, 32, 68, 97),
+                    //       value: withdrawalOption,
+                    //       onChanged: (newValue) {
+                    //         setState(() {
+                    //           withdrawalOption = newValue!;
+                    //         });
+                    //       },
+                    //       items: <String>['Dispensing', 'Not Dispensing']
+                    //           .map<DropdownMenuItem<String>>((String value) {
+                    //         return DropdownMenuItem<String>(
+                    //           value: value,
+                    //           child: Text(
+                    //             value,
+                    //             style: const TextStyle(
+                    //                 fontFamily: 'Poppins',
+                    //                 color: Colors.white,
+                    //                 fontWeight: FontWeight.bold,
+                    //                 fontSize: 14),
+                    //           ),
+                    //         );
+                    //       }).toList(),
+                    //     ),
                   SizedBox(
                       width: size.width * 0.57,
                       child: TextFieldWidget(
@@ -189,11 +238,7 @@ class _NewHabitScreenConsumerState extends ConsumerState<NewHabitScreen> {
                 height: 5,
               ),
               const IconRow(),
-              SizedBox(height: 20),
-              IconButton(
-                  onPressed: () => Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => HomeScreen())),
-                  icon: Icon(Icons.forward))
+              const SizedBox(height: 20),
             ],
           ),
         ),
@@ -236,8 +281,9 @@ class _IconRowState extends ConsumerState<IconRow> {
   }
 }
 
+@immutable
 class ColorRow extends ConsumerStatefulWidget {
-  ColorRow({
+  const ColorRow({
     super.key,
   });
 

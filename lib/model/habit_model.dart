@@ -2,13 +2,13 @@ import 'dart:ui';
 
 class Habit {
   final String habitName;
-  final  reminderText;
+   String? reminderText;
   final Color color;
-  final  icon;
+  final String icon;
 
   Habit(
       {required this.habitName,
-      required this.reminderText,
+       this.reminderText,
       required this.color,
       required this.icon});
 

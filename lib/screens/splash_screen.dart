@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hab_it/utils/textstyle.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
-class SplashScreen extends StatefulWidget {
+import '../utils/theme.dart';
+
+class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
 
   @override
-  State<SplashScreen> createState() => _SplashScreenState();
+  ConsumerState<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   Widget build(BuildContext context) {
+        final theme = ref.watch(themeNotifierProvider);
     final size = MediaQuery.of(context).size;
     return Scaffold(
       body: Center(
@@ -38,13 +42,13 @@ class _SplashScreenState extends State<SplashScreen> {
               ],
             ),
             LoadingAnimationWidget.halfTriangleDot(
-                    color: Colors.black, size: 24)
+                    color: theme.isDarkModeOn? Colors.white:Colors.black, size: 24)
                 .animate()
                 .fadeIn(delay: 2200.ms, duration:500.ms),
                 const SizedBox(height:15),
             SizedBox(width: size.width*0.7,
-              child: Text(
-                "'Let today be the day you give up who you've been for who you can become.'-Hal Elrod",
+              child: const Text(
+                "'Let today be the day you give up who you've been for who you can become.'\n-Hal Elrod",
               ).animate().fadeIn(delay: 3000.ms,duration: 1500.ms)
             ),
           ],

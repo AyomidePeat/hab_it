@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
 import '../colors.dart';
 
 final colorProvider = ChangeNotifierProvider<ColorNotifier>((ref) {
@@ -34,9 +33,8 @@ class ColorNotifier extends ChangeNotifier {
     if (colorStates[index] == true) {
       selectedIndex = index;
     }
-     print('selectedColor: $selectedColor');
      selectedColor= colors[selectedIndex];
     notifyListeners();
   }
-  late var selectedColor = colors[selectedIndex];
+  late var selectedColor = Colors.white;
 }

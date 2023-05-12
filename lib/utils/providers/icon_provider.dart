@@ -23,7 +23,6 @@ class IconNotifier extends ChangeNotifier {
   bool icon13 = false;
   bool icon14 = false;
   bool icon15 = false;
-  @override
   late List<bool> iconStates = [
     icon1,
     icon2,
@@ -41,17 +40,22 @@ class IconNotifier extends ChangeNotifier {
     icon14,
     icon15,
   ];
-  var selectedIndex=0;
-  
+  var selectedIndex = 0;
+
   selectIcon(int index) {
     iconStates = iconStates.map((state) => false).toList();
     iconStates[index] = true;
     notifyListeners();
     if (iconStates[index] == true) {
       selectedIndex = index;
+  
     }
-    selectedIcon = icons[selectedIndex];
+ 
+      selectedIcon = icons[selectedIndex];
+    
     notifyListeners();
   }
- late var selectedIcon= icons[selectedIndex];
+
+  late var selectedIcon = '';
+
 }
