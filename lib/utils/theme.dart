@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 final themeNotifierProvider = ChangeNotifierProvider<ThemeNotifier>((ref) {
   return ThemeNotifier();
@@ -39,11 +40,20 @@ final darkTheme = ThemeData(fontFamily: 'nexa',
 class ThemeNotifier extends ChangeNotifier {
   bool isDarkModeOn = false;
 
+  final brightness = SchedulerBinding.instance.window.platformBrightness;
+  
   ThemeData _themeData = lightTheme;
   ThemeData getTheme() => _themeData;
 
   void toggleTheme() {
     isDarkModeOn = !isDarkModeOn;
+    _themeData = isDarkModeOn ? darkTheme : lightTheme;
+    notifyListeners();
+  }
+
+  void syncThemeWithSystem() {
+    final brightness = SchedulerBinding.instance.window.platformBrightness;
+    isDarkModeOn = brightness == Brightness.dark;
     _themeData = isDarkModeOn ? darkTheme : lightTheme;
     notifyListeners();
   }
