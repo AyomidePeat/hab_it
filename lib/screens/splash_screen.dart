@@ -5,6 +5,7 @@ import 'package:hab_it/utils/textstyle.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 import '../utils/theme.dart';
+import 'homescreen.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
@@ -14,6 +15,15 @@ class SplashScreen extends ConsumerStatefulWidget {
 }
 
 class _SplashScreenState extends ConsumerState<SplashScreen> {
+  void initState() {
+    
+    Future.delayed(Duration(seconds: 7), () {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => HomeScreen().animate().fadeIn(duration: 1500.ms)),
+      );
+    });
+  }
   @override
   Widget build(BuildContext context) {
         final theme = ref.watch(themeNotifierProvider);
@@ -54,6 +64,6 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
           ],
         ),
       ),
-    );
+    ).animate().fadeOut(delay:7000.ms,duration: 3000.ms);
   }
 }
