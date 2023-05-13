@@ -51,7 +51,7 @@ class IconNotifier extends ChangeNotifier {
   
     }
  
-      selectedIcon = icons[selectedIndex];
+      selectedIcon =  icons[selectedIndex];
     
     notifyListeners();
   }

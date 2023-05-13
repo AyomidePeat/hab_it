@@ -5,10 +5,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hab_it/utils/textstyle.dart';
 import '../model/habit_model.dart';
 import '../utils/colors.dart';
+import '../utils/providers/frequency_provider.dart';
 import '../utils/providers/habit_provider.dart';
 import '../utils/quotes.dart';
 import '../utils/theme.dart';
 import '../widgets/custom_container.dart';
+import '../widgets/custom_elevlated_button.dart';
 import '../widgets/habit_container.dart';
 import '../widgets/theme_button.dart';
 import 'new_habit_screen.dart';
@@ -40,7 +42,7 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = ref.watch(themeNotifierProvider);
-
+   
     List<Habit> habits = ref.watch(habitStateNotifierProvider);
     final size = MediaQuery.of(context).size;
 
@@ -52,16 +54,7 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
                 ' HAB IT',
                 style: headline2(context),
               ),
-              Center(
-                  child: TextButton(
-                child: const Text('Add A new Habit'),
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const HomeScreen()));
-                },
-              ))
+            
             ],
           ),
           elevation: 0,
@@ -79,9 +72,7 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
                 width: size.width,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15),
-                    color: theme.isDarkModeOn
-                        ? Colors.blue
-                        : Colors.blue),
+                    color: Colors.blue),
                 child: Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Center(
@@ -94,27 +85,51 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
               ),
             ),
             habits.isEmpty
-                ? Center(
-                    child: TextButton(
-                    child: const Text('Add A new Habit'),
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const HomeScreen()));
-                    },
-                  ))
-                : ListView.builder(
-                    itemCount: habits.length,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                          title: HabitContainer(
-                        habitName: habits[index].habitName,
-                        icon: habits[index].icon,
-                        reminderText: habits[index].reminderText,
-                        color: habits[index].color,
-                      ));
-                    }),
+                ? Column(
+                  children: [SizedBox(height: size.height*0.3,),
+                    Center(
+                        child: TextButton(
+                        child:  Text('Get Started', style: headline3(context),),
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const NewHabitScreen()));
+                        },
+                      )),
+                  ],
+                )
+                : Column(
+                  children: [
+                    Flexible(
+                      child: ListView.builder(
+                          itemCount: habits.length,
+                          itemBuilder: (context, index) {
+                            return ListTile(
+                                title: HabitContainer(frequency: habits[index].frequency,
+                              habitName: habits[index].habitName,
+                              icon: habits[index].icon,
+                              reminderText: habits[index].reminderText,
+                              color: habits[index].color,
+                            ));
+                          }),
+                    ),
+                     Padding(
+                    padding: const EdgeInsets.only(bottom:20.0),
+                    child: Center(
+                    child: Row(mainAxisAlignment: MainAxisAlignment.center,
+                      children: [Icon(Icons.add_circle_outline_rounded),
+                        Padding(
+                          padding: const EdgeInsets.only(top:8, left:5),
+                          child:  Text('New Habit', style: bodyText2(context),),
+                        ),
+                      ],
+                    )),
+                  )
+                  ],
+                ),
+        
+                 
           ],
         ));
   }

@@ -10,11 +10,15 @@ class FrequencyNotifier extends ChangeNotifier {
   bool daily = false;
   bool weekly = false;
   bool monthly = false;
+
+  var selectedFrequency = false;
+
   void noneInterval() {
     none = true;
     daily = false;
     weekly = false;
     monthly = false;
+      selectedInterval = 'none';
     notifyListeners();
   }
 
@@ -23,6 +27,7 @@ class FrequencyNotifier extends ChangeNotifier {
     daily = true;
     weekly = false;
     monthly = false;
+        selectedInterval = 'Everyday';
     notifyListeners();
   }
 
@@ -34,6 +39,7 @@ class FrequencyNotifier extends ChangeNotifier {
     if (days > 7) {
       days = 3;
     }
+    selectedInterval = '$days days/week';
     notifyListeners();
   }
 
@@ -42,6 +48,7 @@ class FrequencyNotifier extends ChangeNotifier {
     daily = false;
     weekly = false;
     monthly = true;
+     selectedInterval = '$days days/month';
     notifyListeners();
   }
 
@@ -63,4 +70,9 @@ class FrequencyNotifier extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+
+
+
+  late var selectedInterval= '';
 }
