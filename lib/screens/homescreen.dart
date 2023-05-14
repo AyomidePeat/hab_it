@@ -3,14 +3,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hab_it/utils/textstyle.dart';
+import 'package:hab_it/widgets/calendar_widget.dart';
+import 'package:table_calendar/table_calendar.dart';
 import '../model/habit_model.dart';
-import '../utils/colors.dart';
-import '../utils/providers/frequency_provider.dart';
 import '../utils/providers/habit_provider.dart';
 import '../utils/quotes.dart';
-import '../utils/theme.dart';
-import '../widgets/custom_container.dart';
-import '../widgets/custom_elevlated_button.dart';
 import '../widgets/habit_container.dart';
 import '../widgets/theme_button.dart';
 import 'new_habit_screen.dart';
@@ -41,8 +38,6 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = ref.watch(themeNotifierProvider);
-   
     List<Habit> habits = ref.watch(habitStateNotifierProvider);
     final size = MediaQuery.of(context).size;
 
@@ -54,7 +49,6 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
                 ' HAB IT',
                 style: headline2(context),
               ),
-            
             ],
           ),
           elevation: 0,
@@ -78,58 +72,74 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
                   child: Center(
                     child: Text(
                       quotes[currentIndex],
-                      style: TextStyle(fontSize: 14, color: Colors.white),
+                      style: const TextStyle(fontSize: 14, color: Colors.white),
                     ),
                   ),
                 ),
               ),
             ),
+            
             habits.isEmpty
                 ? Column(
-                  children: [SizedBox(height: size.height*0.3,),
-                    Center(
-                        child: TextButton(
-                        child:  Text('Get Started', style: headline3(context),),
+                    children: [
+                      SizedBox(
+                        height: size.height * 0.3,
+                      ),
+                      Center(
+                          child: TextButton(
+                        child: Text(
+                          'Get Started',
+                          style: headline3(context),
+                        ),
                         onPressed: () {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const NewHabitScreen()));
+                                  builder: (context) =>
+                                      const NewHabitScreen()));
                         },
                       )),
-                  ],
-                )
-                : Column(
-                  children: [
-                    Flexible(
-                      child: ListView.builder(
-                          itemCount: habits.length,
-                          itemBuilder: (context, index) {
-                            return ListTile(
-                                title: HabitContainer(frequency: habits[index].frequency,
-                              habitName: habits[index].habitName,
-                              icon: habits[index].icon,
-                              reminderText: habits[index].reminderText,
-                              color: habits[index].color,
-                            ));
-                          }),
-                    ),
-                     Padding(
-                    padding: const EdgeInsets.only(bottom:20.0),
-                    child: Center(
-                    child: Row(mainAxisAlignment: MainAxisAlignment.center,
-                      children: [Icon(Icons.add_circle_outline_rounded),
-                        Padding(
-                          padding: const EdgeInsets.only(top:8, left:5),
-                          child:  Text('New Habit', style: bodyText2(context),),
-                        ),
-                      ],
-                    )),
+                    ],
                   )
+                : Flexible(
+                    child: ListView.builder(
+                        itemCount: habits.length,
+                        itemBuilder: (context, index) {
+                          return ListTile(
+                              title: HabitContainer(
+                            frequency: habits[index].frequency,
+                            habitName: habits[index].habitName,
+                            icon: habits[index].icon,
+                            reminderText: habits[index].reminderText,
+                            color: habits[index].color,
+                          ));
+                        }),
+                  ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 20.0),
+              child: Center(
+                  child: TextButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const NewHabitScreen()));
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(Icons.add_circle_outline_rounded),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8, left: 5),
+                      child: Text(
+                        'New Habit',
+                        style: bodyText2(context),
+                      ),
+                    ),
                   ],
                 ),
-        
-                 
+              )),
+            )
           ],
         ));
   }

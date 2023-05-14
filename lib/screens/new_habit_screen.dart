@@ -56,6 +56,7 @@ class _NewHabitScreenConsumerState extends ConsumerState<NewHabitScreen> {
       });
     }
   }
+
   String withdrawalOption = 'Dispensing';
   @override
   Widget build(BuildContext context) {
@@ -68,16 +69,15 @@ class _NewHabitScreenConsumerState extends ConsumerState<NewHabitScreen> {
         reminderText: reminderTextController.text.trim(),
         color: colorRef.selectedColor,
         icon: iconRef.selectedIcon,
-        frequency: frequencyRef.selectedInterval
-         );
+        frequency: frequencyRef.selectedInterval);
     return Scaffold(
       appBar: AppBar(
+          automaticallyImplyLeading: false,
           elevation: 0,
           backgroundColor: Colors.transparent,
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const ThemeButton(),
               CustomTextButton(
                   onPressed: () {
                     Navigator.pop(context);
@@ -98,19 +98,20 @@ class _NewHabitScreenConsumerState extends ConsumerState<NewHabitScreen> {
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                       content: Center(child: Text('Please select a colour')),
                     ));
-                  } else if (isSwitched == true && habit.reminderText!.isEmpty) {
+                  } else if (isSwitched == true &&
+                      habit.reminderText!.isEmpty) {
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                       content:
                           Center(child: Text('Please enter a reminder text')),
                     ));
                   }
-                  //  else if (isSwitched == false &&
-                  //     habit.reminderText!.isEmpty) {
-                    
-                  //     habit.reminderText = 'No reminder text';
-                    
-                  // }
-                   else {
+                   else if (isSwitched == false &&
+                      habit.reminderText!.isEmpty) {
+
+                      habit.reminderText = 'No reminder';
+
+                   }
+                  else {
                     ref
                         .read(habitStateNotifierProvider.notifier)
                         .addHabit(habit);
@@ -197,29 +198,29 @@ class _NewHabitScreenConsumerState extends ConsumerState<NewHabitScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                    // DropdownButton<String>(
-                    //       dropdownColor: const Color.fromARGB(255, 32, 68, 97),
-                    //       value: withdrawalOption,
-                    //       onChanged: (newValue) {
-                    //         setState(() {
-                    //           withdrawalOption = newValue!;
-                    //         });
-                    //       },
-                    //       items: <String>['Dispensing', 'Not Dispensing']
-                    //           .map<DropdownMenuItem<String>>((String value) {
-                    //         return DropdownMenuItem<String>(
-                    //           value: value,
-                    //           child: Text(
-                    //             value,
-                    //             style: const TextStyle(
-                    //                 fontFamily: 'Poppins',
-                    //                 color: Colors.white,
-                    //                 fontWeight: FontWeight.bold,
-                    //                 fontSize: 14),
-                    //           ),
-                    //         );
-                    //       }).toList(),
-                    //     ),
+                  // DropdownButton<String>(
+                  //       dropdownColor: const Color.fromARGB(255, 32, 68, 97),
+                  //       value: withdrawalOption,
+                  //       onChanged: (newValue) {
+                  //         setState(() {
+                  //           withdrawalOption = newValue!;
+                  //         });
+                  //       },
+                  //       items: <String>['Dispensing', 'Not Dispensing']
+                  //           .map<DropdownMenuItem<String>>((String value) {
+                  //         return DropdownMenuItem<String>(
+                  //           value: value,
+                  //           child: Text(
+                  //             value,
+                  //             style: const TextStyle(
+                  //                 fontFamily: 'Poppins',
+                  //                 color: Colors.white,
+                  //                 fontWeight: FontWeight.bold,
+                  //                 fontSize: 14),
+                  //           ),
+                  //         );
+                  //       }).toList(),
+                  //     ),
                   SizedBox(
                       width: size.width * 0.57,
                       child: TextFieldWidget(
