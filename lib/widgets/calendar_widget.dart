@@ -27,7 +27,7 @@ class _CalenderWidgetState extends State<CalenderWidget> {
 
   var _selectedDay;
   var _focusedDay;
-  onDaySelected(DateTime day, List events, List date) {
+  onDaySelected(DateTime day, List date) {
     setState(() {
       selectedDateStreamController.add(day);
     });
@@ -39,7 +39,6 @@ class _CalenderWidgetState extends State<CalenderWidget> {
     final size = MediaQuery.of(context).size;
     return TableCalendar(
       headerVisible: false,
-
       firstDay: DateTime.utc(2010, 10, 16),
       lastDay: DateTime.utc(2030, 3, 14),
       focusedDay: DateTime.now(),
@@ -64,11 +63,10 @@ class _CalenderWidgetState extends State<CalenderWidget> {
             shape: BoxShape.circle,
           ),
           child: Text(
-            focusedDay.day.toString(),
+           day.day.toString(),
             style: const TextStyle(color: Colors.white),
           ),
         ),
-
         defaultBuilder: (
           context,
           date,
@@ -98,12 +96,12 @@ class _CalenderWidgetState extends State<CalenderWidget> {
         });
       },
       selectedDayPredicate: (day) {
-        return isSameDay(_selectedDay, day);
+        return isSameDay(day, _selectedDay);
       },
       onDaySelected: (selectedDay, focusedDay) {
         setState(() {
           _selectedDay = selectedDay;
-          _focusedDay = focusedDay; // update `_focusedDay` here as well
+          _focusedDay = selectedDay;
         });
       },
     );

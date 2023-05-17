@@ -112,6 +112,7 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
                             icon: habits[index].icon,
                             reminderText: habits[index].reminderText,
                             color: habits[index].color,
+                            onPressed: habits[index].markAsCompleted,
                           ));
                         }),
                   ),

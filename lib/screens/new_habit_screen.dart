@@ -8,8 +8,10 @@ import 'package:hab_it/widgets/theme_button.dart';
 import '../utils/colors.dart';
 import '../utils/icons.dart';
 import '../utils/providers/color_provider.dart';
+import '../utils/providers/completed_provider.dart';
 import '../utils/providers/frequency_provider.dart';
 import '../utils/providers/habit_provider.dart';
+import '../utils/providers/id_provider.dart';
 import '../utils/textstyle.dart';
 import '../widgets/color_container.dart';
 import '../widgets/custom_text_button.dart';
@@ -63,13 +65,18 @@ class _NewHabitScreenConsumerState extends ConsumerState<NewHabitScreen> {
     final colorRef = ref.watch(colorProvider);
     final iconRef = ref.watch(iconProvider);
     final frequencyRef = ref.watch(frequencyProvider);
+    final completedRef = ref.watch(completedProvider);
+    final idRef = ref.watch(idProvider);
     final size = MediaQuery.of(context).size;
     final habit = Habit(
         habitName: habitNameController.text.trim(),
         reminderText: reminderTextController.text.trim(),
         color: colorRef.selectedColor,
         icon: iconRef.selectedIcon,
-        frequency: frequencyRef.selectedInterval);
+        frequency: frequencyRef.selectedInterval,
+        
+
+        );
     return Scaffold(
       appBar: AppBar(
           automaticallyImplyLeading: false,
