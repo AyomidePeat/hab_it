@@ -8,24 +8,25 @@ final colorProvider = ChangeNotifierProvider<ColorNotifier>((ref) {
 
 class ColorNotifier extends ChangeNotifier {
   bool redColor = false;
+  bool orangeColor = false;
   bool amberColor = false;
   bool greenColor = false;
   bool purpleColor = false;
   bool indigoColor = false;
-  bool blueGreyColor = false;
+  bool blueColor = false;
   bool grey = false;
   late List<bool> colorStates = [
     redColor,
+    orangeColor,
     amberColor,
     greenColor,
     purpleColor,
     indigoColor,
-    blueGreyColor,
+    blueColor,
     grey
   ];
   var selectedIndex = 0;
-  
- 
+
   void selectContainer(int index) {
     colorStates = colorStates.map((state) => false).toList();
     colorStates[index] = true;
@@ -33,8 +34,11 @@ class ColorNotifier extends ChangeNotifier {
     if (colorStates[index] == true) {
       selectedIndex = index;
     }
-     selectedColor= colors[selectedIndex];
+    selectedColor = colors[selectedIndex];
+    lightColor = lightColors[selectedIndex];
     notifyListeners();
   }
+
   late var selectedColor = Colors.white;
+  late var lightColor = Colors.white;
 }

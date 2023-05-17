@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hab_it/model/habit_model.dart';
 import 'package:hab_it/utils/providers/icon_provider.dart';
-import 'package:hab_it/widgets/theme_button.dart';
 import '../utils/colors.dart';
 import '../utils/icons.dart';
 import '../utils/providers/color_provider.dart';
@@ -74,6 +73,7 @@ class _NewHabitScreenConsumerState extends ConsumerState<NewHabitScreen> {
         color: colorRef.selectedColor,
         icon: iconRef.selectedIcon,
         frequency: frequencyRef.selectedInterval,
+        lightColor: colorRef.lightColor
         
 
         );
@@ -205,29 +205,7 @@ class _NewHabitScreenConsumerState extends ConsumerState<NewHabitScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  // DropdownButton<String>(
-                  //       dropdownColor: const Color.fromARGB(255, 32, 68, 97),
-                  //       value: withdrawalOption,
-                  //       onChanged: (newValue) {
-                  //         setState(() {
-                  //           withdrawalOption = newValue!;
-                  //         });
-                  //       },
-                  //       items: <String>['Dispensing', 'Not Dispensing']
-                  //           .map<DropdownMenuItem<String>>((String value) {
-                  //         return DropdownMenuItem<String>(
-                  //           value: value,
-                  //           child: Text(
-                  //             value,
-                  //             style: const TextStyle(
-                  //                 fontFamily: 'Poppins',
-                  //                 color: Colors.white,
-                  //                 fontWeight: FontWeight.bold,
-                  //                 fontSize: 14),
-                  //           ),
-                  //         );
-                  //       }).toList(),
-                  //     ),
+                     
                   SizedBox(
                       width: size.width * 0.57,
                       child: TextFieldWidget(
@@ -310,7 +288,7 @@ class _ColorRowState extends ConsumerState<ColorRow> {
     return ConstrainedBox(
       constraints: const BoxConstraints(maxHeight: 50),
       child: GridView.builder(
-          itemCount: 7,
+          itemCount: colors.length,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: colors.length,
               crossAxisSpacing: 7,
@@ -323,6 +301,7 @@ class _ColorRowState extends ConsumerState<ColorRow> {
               color: colors[index],
               index: index,
               isPressed: colorRef.colorStates[index],
+            
             );
           }),
     );

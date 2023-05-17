@@ -2,10 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hab_it/utils/textstyle.dart';
-
-import '../utils/colors.dart';
-import '../utils/theme.dart';
-import 'calendar_widget.dart';
+import 'package:hab_it/widgets/streak_widget.dart';
 
 class HabitContainer extends ConsumerWidget {
   final String habitName;
@@ -14,19 +11,22 @@ class HabitContainer extends ConsumerWidget {
   final String frequency;
   final onPressed;
   final reminderText;
-  const HabitContainer({
+  final Color lightColor;
+  final bool isCompleted;
+  const HabitContainer( {
     super.key,
     required this.habitName,
+    required this.lightColor,
+    required this.isCompleted,
     required this.icon,
     required this.reminderText,
     required this.color,
     required this.frequency,
-    required this.onPressed, 
+    required this.onPressed,
   });
 
   @override
   Widget build(BuildContext context, ref) {
-    final theme = ref.watch(themeNotifierProvider);
     final size = MediaQuery.of(context).size;
     return Container(
         padding: const EdgeInsets.all(10.0),
@@ -66,17 +66,19 @@ class HabitContainer extends ConsumerWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 8.0),
-                          child: Text(
-                            habitName,
-                            overflow: TextOverflow.fade,
-                            style: bodyText1(context),
+                        SizedBox(
+                          width: 250,
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 8.0),
+                            child: Text(
+                              habitName,
+                              overflow: TextOverflow.ellipsis,
+                              style: bodyText1(context),
+                            ),
                           ),
                         ),
                         Text(
                           ' $frequency',
-                          overflow: TextOverflow.fade,
                           style: bodyText3(context),
                         ),
                       ],
@@ -88,7 +90,7 @@ class HabitContainer extends ConsumerWidget {
                   child: ElevatedButton(
                     onPressed: onPressed,
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: color,
+                        backgroundColor: isCompleted ? color : lightColor,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(5))),
                     child: Icon(Icons.check),
@@ -96,6 +98,22 @@ class HabitContainer extends ConsumerWidget {
                 )
               ],
             ),
+            ConstrainedBox(
+              constraints: BoxConstraints(maxWidth: 320, maxHeight: 40),
+              child: GridView(
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 15,
+                    mainAxisExtent: 15,
+                    crossAxisSpacing: 6,
+                    mainAxisSpacing: 5),
+                children: [
+                  for (int i = 0; i <= 30; i++)
+                    StreakContainer(
+                        color: isCompleted ? color : lightColor,
+                        isCompleted: isCompleted)
+                ],
+              ),
+            )
           ],
         ));
   }

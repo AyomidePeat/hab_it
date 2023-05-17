@@ -7,15 +7,17 @@ class Habit {final int id;
   final Color color;
   final String icon;
   final frequency;
+  final Color lightColor;
 bool isCompleted;
 
-  Habit( {
+  Habit(  {
     required this.habitName,
     this.reminderText,
     required this.color,
     required this.icon,
     required this.frequency,
    this.isCompleted = false,
+   required this.lightColor,
   }): id = idCounter++;
 
   Habit copyWith(
@@ -25,14 +27,16 @@ bool isCompleted;
       String? icon,
       var frequency,
       bool? completed,
-        String? id
+        String? id,
+        Color? lightColor,
       }) {
     return Habit(
         habitName: habitName ?? this.habitName,
         reminderText: reminderText ?? this.reminderText,
         color: color ?? this.color,
         icon: icon ?? this.icon,
-        frequency: frequency ?? this.frequency,
+        frequency: frequency ?? this.frequency,lightColor: lightColor?? this.lightColor
+
      
 
         );

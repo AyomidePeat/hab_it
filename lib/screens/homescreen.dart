@@ -106,12 +106,13 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
                         itemCount: habits.length,
                         itemBuilder: (context, index) {
                           return ListTile(
-                              title: HabitContainer(
+                              title: HabitContainer(  lightColor: habits[index].lightColor,
                             frequency: habits[index].frequency,
                             habitName: habits[index].habitName,
                             icon: habits[index].icon,
                             reminderText: habits[index].reminderText,
                             color: habits[index].color,
+                            isCompleted: habits[index].isCompleted,
                             onPressed: habits[index].markAsCompleted,
                           ));
                         }),
