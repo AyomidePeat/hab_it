@@ -58,7 +58,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                 const SizedBox(height:15),
             SizedBox(width: size.width*0.7,
               child: const Text(
-                "'Let today be the day you give up who you've been for who you can become.'\n-Hal Elrod",
+                "'Let today be the day you give up who you've been for who you can become.'\n-Hal Elrod", textAlign: TextAlign.center,
               ).animate().fadeIn(delay: 3000.ms,duration: 1500.ms)
             ),
           ],

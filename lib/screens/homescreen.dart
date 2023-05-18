@@ -3,8 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hab_it/utils/textstyle.dart';
-import 'package:hab_it/widgets/calendar_widget.dart';
-import 'package:table_calendar/table_calendar.dart';
 import '../model/habit_model.dart';
 import '../utils/providers/habit_provider.dart';
 import '../utils/quotes.dart';
@@ -21,6 +19,7 @@ class HomeScreen extends ConsumerStatefulWidget {
 
 class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
   int currentIndex = 0;
+   Set<int> completedDays = {};
 
   @override
   void initState() {
@@ -40,7 +39,7 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
   Widget build(BuildContext context) {
     List<Habit> habits = ref.watch(habitStateNotifierProvider);
     final size = MediaQuery.of(context).size;
-
+    final currentDate = DateTime.now().day;
     return Scaffold(
         appBar: AppBar(
           title: Row(
@@ -78,7 +77,6 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
                 ),
               ),
             ),
-            
             habits.isEmpty
                 ? Column(
                     children: [
@@ -105,8 +103,10 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
                     child: ListView.builder(
                         itemCount: habits.length,
                         itemBuilder: (context, index) {
+
                           return ListTile(
-                              title: HabitContainer(  lightColor: habits[index].lightColor,
+                              title: HabitContainer(currentDay: currentDate,
+                            lightColor: habits[index].lightColor,
                             frequency: habits[index].frequency,
                             habitName: habits[index].habitName,
                             icon: habits[index].icon,
@@ -114,6 +114,8 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
                             color: habits[index].color,
                             isCompleted: habits[index].isCompleted,
                             onPressed: habits[index].markAsCompleted,
+                             completedDays: habits[index].completedDays..add(currentDate),
+
                           ));
                         }),
                   ),

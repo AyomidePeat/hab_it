@@ -13,7 +13,7 @@ final lightTheme = ThemeData(fontFamily: 'nexa',
   scaffoldBackgroundColor: Color.fromARGB(255, 255, 247, 247 ),
   textTheme: const TextTheme(
     displayLarge: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color:Colors.black),
-    displayMedium: TextStyle(fontSize: 22, fontWeight: FontWeight.bold,color:Colors.black),
+    displayMedium: TextStyle(fontSize: 24, fontWeight: FontWeight.bold,color:Colors.black),
      displaySmall: TextStyle(fontSize: 18, fontWeight: FontWeight.bold,color:Colors.black),
     bodyLarge: TextStyle(fontSize: 16,color:Colors.black),
     bodyMedium: TextStyle(fontSize: 14,color:Colors.black),

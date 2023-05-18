@@ -11,9 +11,12 @@ class HabitContainer extends ConsumerWidget {
   final String frequency;
   final onPressed;
   final reminderText;
+  final int currentDay;
   final Color lightColor;
   final bool isCompleted;
-  const HabitContainer( {
+  final Set<int> completedDays;
+  
+  const HabitContainer({
     super.key,
     required this.habitName,
     required this.lightColor,
@@ -23,6 +26,8 @@ class HabitContainer extends ConsumerWidget {
     required this.color,
     required this.frequency,
     required this.onPressed,
+    required this.currentDay,
+    required this.completedDays,
   });
 
   @override
@@ -109,8 +114,12 @@ class HabitContainer extends ConsumerWidget {
                 children: [
                   for (int i = 0; i <= 30; i++)
                     StreakContainer(
-                        color: isCompleted ? color : lightColor,
-                        isCompleted: isCompleted)
+                      color: isCompleted && i + 1 == currentDay
+                          ? color
+                          : lightColor,
+                      isCompleted: completedDays.contains(i+1) ,
+                      day: i + 1,
+                    )
                 ],
               ),
             )
