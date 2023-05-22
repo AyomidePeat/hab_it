@@ -1,8 +1,10 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hab_it/utils/textstyle.dart';
+import 'package:hab_it/widgets/custom_elevlated_button.dart';
 import '../model/habit_model.dart';
 import '../utils/providers/habit_provider.dart';
 import '../utils/quotes.dart';
@@ -19,7 +21,6 @@ class HomeScreen extends ConsumerStatefulWidget {
 
 class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
   int currentIndex = 0;
-   Set<int> completedDays = {};
 
   @override
   void initState() {
@@ -28,7 +29,7 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
   }
 
   void startTimer() async {
-    await Future.delayed(const Duration(seconds: 3));
+    await Future.delayed(const Duration(seconds: 10));
     setState(() {
       currentIndex = (currentIndex + 1) % quotes.length;
       startTimer();
@@ -40,6 +41,7 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
     List<Habit> habits = ref.watch(habitStateNotifierProvider);
     final size = MediaQuery.of(context).size;
     final currentDate = DateTime.now().day;
+
     return Scaffold(
         appBar: AppBar(
           title: Row(
@@ -67,12 +69,10 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
                     borderRadius: BorderRadius.circular(15),
                     color: Colors.blue),
                 child: Padding(
-                  padding: const EdgeInsets.all(10.0),
-                  child: Center(
-                    child: Text(
-                      quotes[currentIndex],
-                      style: const TextStyle(fontSize: 14, color: Colors.white),
-                    ),
+                  padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 30),
+                  child: Text(
+                    quotes[currentIndex],
+                    style: const TextStyle(fontSize: 14, color: Colors.white),
                   ),
                 ),
               ),
@@ -83,41 +83,26 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
                       SizedBox(
                         height: size.height * 0.3,
                       ),
-                      Center(
-                          child: TextButton(
-                        child: Text(
-                          'Get Started',
-                          style: headline3(context),
-                        ),
-                        onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      const NewHabitScreen()));
-                        },
-                      )),
+                     
                     ],
                   )
                 : Flexible(
                     child: ListView.builder(
                         itemCount: habits.length,
                         itemBuilder: (context, index) {
-
+                          bool isCompleted = habits[index].isCompleted;
                           return ListTile(
-                              title: HabitContainer(currentDay: currentDate,
-                            lightColor: habits[index].lightColor,
-                            frequency: habits[index].frequency,
-                            habitName: habits[index].habitName,
-                            icon: habits[index].icon,
-                            reminderText: habits[index].reminderText,
-                            color: habits[index].color,
-                            isCompleted: habits[index].isCompleted,
-                            onPressed: habits[index].markAsCompleted,
-                             completedDays: habits[index].completedDays..add(currentDate),
-
+                              title: HabitContainer(
+                            currentDay: currentDate,
+                            habit: habits[index],
+                            onPressed: () {
+                        habits[index].markAsCompleted();
+                           
+                             
+                              
+                            },
                           ));
-                        }),
+                        }).animate().slide(),
                   ),
             Padding(
               padding: const EdgeInsets.only(bottom: 20.0),
@@ -143,7 +128,8 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
                   ],
                 ),
               )),
-            )
+            ),
+          
           ],
         ));
   }

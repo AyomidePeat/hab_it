@@ -2,16 +2,13 @@ import 'package:flutter/material.dart';
 
 class StreakContainer extends StatelessWidget {
   final Color color;
-  final bool isCompleted;
-  final int day;
+  final bool isCompleted; 
 
-  const StreakContainer(
-      {super.key,
-      required this.color,
-      required this.isCompleted,
-      required this.day,
-     
-      });
+  const StreakContainer({
+    super.key,
+    required this.color,
+    required this.isCompleted,
+  });
 
   @override
   Widget build(BuildContext context) {

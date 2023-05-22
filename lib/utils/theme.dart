@@ -38,11 +38,11 @@ final darkTheme = ThemeData(fontFamily: 'nexa',
 );
 
 class ThemeNotifier extends ChangeNotifier {
-  bool isDarkModeOn = false;
+  bool isDarkModeOn = true;
 
   final brightness = SchedulerBinding.instance.window.platformBrightness;
   
-  ThemeData _themeData = lightTheme;
+  ThemeData _themeData = darkTheme;
   ThemeData getTheme() => _themeData;
 
   void toggleTheme() {

@@ -73,10 +73,7 @@ class _NewHabitScreenConsumerState extends ConsumerState<NewHabitScreen> {
         color: colorRef.selectedColor,
         icon: iconRef.selectedIcon,
         frequency: frequencyRef.selectedInterval,
-        lightColor: colorRef.lightColor
-        
-
-        );
+        lightColor: colorRef.lightColor);
     return Scaffold(
       appBar: AppBar(
           automaticallyImplyLeading: false,
@@ -93,6 +90,7 @@ class _NewHabitScreenConsumerState extends ConsumerState<NewHabitScreen> {
               Text('New Habit', style: headline3(context)),
               CustomTextButton(
                 onPressed: () {
+
                   if (habit.habitName.isEmpty) {
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                       content: Center(child: Text('Please enter a title')),
@@ -112,16 +110,20 @@ class _NewHabitScreenConsumerState extends ConsumerState<NewHabitScreen> {
                           Center(child: Text('Please enter a reminder text')),
                     ));
                   }
-                   else if (isSwitched == false &&
-                      habit.reminderText!.isEmpty) {
-
+                 else if (habit.frequency == ''){
+                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                      content: Center(child: Text('Please set a frequency')),
+                    ));
+                 }
+                   else {
+                    if (isSwitched == false && habit.reminderText!.isEmpty) {
                       habit.reminderText = 'No reminder';
+                    }
 
-                   }
-                  else {
                     ref
                         .read(habitStateNotifierProvider.notifier)
                         .addHabit(habit);
+
                     Navigator.pop(context);
                   }
 
@@ -154,7 +156,7 @@ class _NewHabitScreenConsumerState extends ConsumerState<NewHabitScreen> {
               const SizedBox(
                 height: 15,
               ),
-              GestureDetector(
+              InkWell(
                 onTap: () => Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -205,7 +207,6 @@ class _NewHabitScreenConsumerState extends ConsumerState<NewHabitScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                     
                   SizedBox(
                       width: size.width * 0.57,
                       child: TextFieldWidget(
@@ -301,7 +302,6 @@ class _ColorRowState extends ConsumerState<ColorRow> {
               color: colors[index],
               index: index,
               isPressed: colorRef.colorStates[index],
-            
             );
           }),
     );
