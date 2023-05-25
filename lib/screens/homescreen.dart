@@ -1,12 +1,13 @@
 // ignore_for_file: must_be_immutable
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hab_it/utils/textstyle.dart';
-import 'package:hab_it/widgets/custom_elevlated_button.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../model/habit_model.dart';
-import '../utils/providers/habit_provider.dart';
 import '../utils/quotes.dart';
 import '../widgets/habit_container.dart';
 import '../widgets/theme_button.dart';
@@ -22,10 +23,20 @@ class HomeScreen extends ConsumerStatefulWidget {
 class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
   int currentIndex = 0;
 
+  List<Habit> habits = [];
+  Future<List<Habit>> getHabits() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> habitStrings = prefs.getStringList('habits') ?? [];
+    return habitStrings
+        .map((habitString) => Habit.fromJson(json.decode(habitString)))
+        .toList();
+  }
+
   @override
   void initState() {
     super.initState();
     startTimer();
+    loadHabits();
   }
 
   void startTimer() async {
@@ -36,9 +47,15 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
     });
   }
 
+  void loadHabits() async {
+    List<Habit> savedHabits = await getHabits();
+    setState(() {
+      habits = savedHabits;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    List<Habit> habits = ref.watch(habitStateNotifierProvider);
     final size = MediaQuery.of(context).size;
     final currentDate = DateTime.now().day;
 
@@ -69,11 +86,12 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
                     borderRadius: BorderRadius.circular(15),
                     color: Colors.blue),
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 30),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 15.0, vertical: 30),
                   child: Text(
                     quotes[currentIndex],
                     style: const TextStyle(fontSize: 14, color: Colors.white),
-                  ),
+                  )
                 ),
               ),
             ),
@@ -83,7 +101,6 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
                       SizedBox(
                         height: size.height * 0.3,
                       ),
-                     
                     ],
                   )
                 : Flexible(
@@ -96,10 +113,7 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
                             currentDay: currentDate,
                             habit: habits[index],
                             onPressed: () {
-                        habits[index].markAsCompleted();
-                           
-                             
-                              
+                              habits[index].markAsCompleted();
                             },
                           ));
                         }).animate().slide(),
@@ -129,7 +143,6 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
                 ),
               )),
             ),
-          
           ],
         ));
   }

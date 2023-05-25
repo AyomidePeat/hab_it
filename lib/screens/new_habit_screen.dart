@@ -7,10 +7,8 @@ import 'package:hab_it/utils/providers/icon_provider.dart';
 import '../utils/colors.dart';
 import '../utils/icons.dart';
 import '../utils/providers/color_provider.dart';
-import '../utils/providers/completed_provider.dart';
 import '../utils/providers/frequency_provider.dart';
 import '../utils/providers/habit_provider.dart';
-import '../utils/providers/id_provider.dart';
 import '../utils/textstyle.dart';
 import '../widgets/color_container.dart';
 import '../widgets/custom_text_button.dart';
@@ -58,14 +56,11 @@ class _NewHabitScreenConsumerState extends ConsumerState<NewHabitScreen> {
     }
   }
 
-  String withdrawalOption = 'Dispensing';
   @override
   Widget build(BuildContext context) {
     final colorRef = ref.watch(colorProvider);
     final iconRef = ref.watch(iconProvider);
     final frequencyRef = ref.watch(frequencyProvider);
-    final completedRef = ref.watch(completedProvider);
-    final idRef = ref.watch(idProvider);
     final size = MediaQuery.of(context).size;
     final habit = Habit(
         habitName: habitNameController.text.trim(),
@@ -90,7 +85,6 @@ class _NewHabitScreenConsumerState extends ConsumerState<NewHabitScreen> {
               Text('New Habit', style: headline3(context)),
               CustomTextButton(
                 onPressed: () {
-
                   if (habit.habitName.isEmpty) {
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                       content: Center(child: Text('Please enter a title')),
@@ -109,13 +103,11 @@ class _NewHabitScreenConsumerState extends ConsumerState<NewHabitScreen> {
                       content:
                           Center(child: Text('Please enter a reminder text')),
                     ));
-                  }
-                 else if (habit.frequency == ''){
-                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  } else if (habit.frequency == '') {
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                       content: Center(child: Text('Please set a frequency')),
                     ));
-                 }
-                   else {
+                  } else {
                     if (isSwitched == false && habit.reminderText!.isEmpty) {
                       habit.reminderText = 'No reminder';
                     }
@@ -123,7 +115,6 @@ class _NewHabitScreenConsumerState extends ConsumerState<NewHabitScreen> {
                     ref
                         .read(habitStateNotifierProvider.notifier)
                         .addHabit(habit);
-
                     Navigator.pop(context);
                   }
 

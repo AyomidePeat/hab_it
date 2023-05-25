@@ -1,5 +1,5 @@
 import 'dart:ui';
-
+import 'dart:convert';
 class Habit {
   final int id;
   static int idCounter = 0;
@@ -45,5 +45,35 @@ class Habit {
 
   void markAsCompleted() {
     isCompleted = true;
+  }
+String toJson() => json.encode(toMap());
+
+  static Habit fromJson(String jsonString) =>
+      Habit.fromMap(json.decode(jsonString));
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'habitName': habitName,
+      'reminderText': reminderText,
+      'color': color.value,
+      'icon': icon,
+      'frequency': frequency,
+      'lightColor': lightColor.value,
+      'isCompleted': isCompleted,
+      'completedDays': completedDays,
+    };
+  }
+static Habit fromMap(Map<String, dynamic> map) {
+    return Habit(
+      habitName: map['habitName'],
+      reminderText: map['reminderText'],
+      color: Color(map['color']),
+      icon: map['icon'],
+      frequency: map['frequency'],
+      lightColor: Color(map['lightColor']),
+      isCompleted: map['isCompleted'],
+      completedDays: Map<DateTime, bool>.from(map['completedDays']),
+    );
   }
 }

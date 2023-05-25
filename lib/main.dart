@@ -5,16 +5,16 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hab_it/screens/homescreen.dart';
 import 'package:hab_it/screens/splash_screen.dart';
-
+import 'package:hab_it/utils/providers/habit_provider.dart';
 
 import 'package:hab_it/utils/theme.dart';
 
 void main() {
- WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
   final themeNotifier = ThemeNotifier();
   themeNotifier.syncThemeWithSystem();
 
-   window.onPlatformBrightnessChanged = () {
+  window.onPlatformBrightnessChanged = () {
     themeNotifier.syncThemeWithSystem();
   };
 
@@ -23,14 +23,13 @@ void main() {
       child: MyApp(),
     ),
   );
-   
 }
 
 class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context,  ref) {
+  Widget build(BuildContext context, ref) {
     final theme = ref.watch(themeNotifierProvider);
 
     return MaterialApp(
@@ -39,6 +38,5 @@ class MyApp extends ConsumerWidget {
       theme: theme.getTheme(),
       home: const SplashScreen(),
     );
-     
   }
 }
