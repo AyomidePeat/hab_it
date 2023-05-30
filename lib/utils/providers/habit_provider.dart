@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:hab_it/screens/homescreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../model/habit_model.dart';
 
@@ -19,6 +18,13 @@ class HabitStateNotifier extends StateNotifier<List<Habit>> {
         state.map((habit) => json.encode(habit.toJson())).toList();
     await prefs.setStringList('habits', habitStrings);
     
+  }
+   Future<List<Habit>> getHabits() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    List<String> habitStrings = prefs.getStringList('habits') ?? [];
+    return habitStrings
+        .map((habitString) => Habit.fromJson(json.decode(habitString)))
+        .toList();
   }
 
   // addCompletedDay(int habitIndex, day) {

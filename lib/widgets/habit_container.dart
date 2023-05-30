@@ -93,7 +93,7 @@ class HabitContainer extends ConsumerWidget {
               ],
             ),
             ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: 320, maxHeight: 60),
+              constraints: const BoxConstraints(maxWidth: double.infinity, maxHeight: 60),
               child: GridView(scrollDirection: Axis.horizontal,
                 physics: ClampingScrollPhysics(), addAutomaticKeepAlives:true ,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
