@@ -17,7 +17,8 @@ import '../widgets/text_field_widget.dart';
 import 'frequency_screen.dart';
 
 class NewHabitScreen extends ConsumerStatefulWidget {
-  const NewHabitScreen({super.key});
+  final VoidCallback load;
+  const NewHabitScreen({super.key, required this.load});
 
   @override
   ConsumerState<NewHabitScreen> createState() => _NewHabitScreenConsumerState();
@@ -115,6 +116,7 @@ class _NewHabitScreenConsumerState extends ConsumerState<NewHabitScreen> {
                     ref
                         .read(habitStateNotifierProvider.notifier)
                         .addHabit(habit);
+                    widget.load();
                     Navigator.pop(context);
                   }
 

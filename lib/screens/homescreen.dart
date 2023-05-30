@@ -126,7 +126,7 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => const NewHabitScreen()));
+                          builder: (context) =>  NewHabitScreen(load: loadHabits,)));
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
