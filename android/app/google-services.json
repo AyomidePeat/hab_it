@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "240918884515",
+    "project_id": "rent-me-6048a",
+    "storage_bucket": "rent-me-6048a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:240918884515:android:8353af27c5735bef138f16",
+        "android_client_info": {
+          "package_name": "com.example.hab_it"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "240918884515-ihsa55rkucra1uhfumkcrlkrdu4prd1a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBzVF2vff8dISi8RjZoZnJjs_mppAQd5co"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "240918884515-ihsa55rkucra1uhfumkcrlkrdu4prd1a.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "240918884515-7d8e7isfm5ighmvnivt3snvavs3lecpp.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.habIt"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -24,6 +24,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
       );
     });
   }
+  
   @override
   Widget build(BuildContext context) {
         final theme = ref.watch(themeNotifierProvider);

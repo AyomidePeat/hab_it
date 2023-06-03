@@ -2,23 +2,24 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hab_it/screens/homescreen.dart';
 import 'package:hab_it/screens/splash_screen.dart';
+import 'package:hab_it/test_notif.dart';
 import 'package:hab_it/utils/providers/habit_provider.dart';
 
 import 'package:hab_it/utils/theme.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  final themeNotifier = ThemeNotifier();
-  themeNotifier.syncThemeWithSystem();
-
-  window.onPlatformBrightnessChanged = () {
-    themeNotifier.syncThemeWithSystem();
-  };
-
-  runApp(
+   var flutterLocalNotificationsPlugin;
+   await flutterLocalNotificationsPlugin.initialize(
+    const InitializationSettings(
+      
+    ),
+  );
+runApp(
     const ProviderScope(
       child: MyApp(),
     ),
@@ -36,7 +37,7 @@ class MyApp extends ConsumerWidget {
       debugShowCheckedModeBanner: false,
       title: 'Your App',
       theme: theme.getTheme(),
-      home: const SplashScreen(),
+      home: const TestNotifications(),
     );
   }
 }

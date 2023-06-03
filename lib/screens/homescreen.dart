@@ -22,7 +22,10 @@ class HomeScreen extends ConsumerStatefulWidget {
 
 class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
   int currentIndex = 0;
+  String messageTitle = "Empty";
+  String notificationAlert = "alert";
 
+  //static final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   List<Habit> habits = [];
   Future<List<Habit>> getHabits() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -86,13 +89,12 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
                     borderRadius: BorderRadius.circular(15),
                     color: Colors.blue),
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 15.0, vertical: 30),
-                  child: Text(
-                    quotes[currentIndex],
-                    style: const TextStyle(fontSize: 14, color: Colors.white),
-                  )
-                ),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 15.0, vertical: 30),
+                    child: Text(
+                      quotes[currentIndex],
+                      style: const TextStyle(fontSize: 14, color: Colors.white),
+                    )),
               ),
             ),
             habits.isEmpty
@@ -126,7 +128,9 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) =>  NewHabitScreen(load: loadHabits,)));
+                          builder: (context) => NewHabitScreen(
+                                load: loadHabits,
+                              )));
                 },
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
