@@ -1,3 +1,4 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -29,6 +30,21 @@ class _NewHabitScreenConsumerState extends ConsumerState<NewHabitScreen> {
   bool isSwitched = false;
   final habitNameController = TextEditingController();
   TextEditingController reminderTextController = TextEditingController();
+  void sendNotification() async {
+    await AwesomeNotifications().createNotification(
+      content: NotificationContent(
+        id: 1,
+        channelKey: 'basic_channel',
+        title: 'Hab It',
+        body: reminderTextController.text,
+        wakeUpScreen: true,
+      ),
+      schedule: NotificationCalendar(allowWhileIdle: true,
+      
+      )
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -117,6 +133,7 @@ class _NewHabitScreenConsumerState extends ConsumerState<NewHabitScreen> {
                         .read(habitStateNotifierProvider.notifier)
                         .addHabit(habit);
                     widget.load();
+                    sendNotification();
                     Navigator.pop(context);
                   }
 

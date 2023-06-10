@@ -1,44 +1,47 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-class TestNotifications extends StatefulWidget {
-  const TestNotifications({super.key});
 
+class HomePage extends StatefulWidget {
   @override
-  State<TestNotifications> createState() => _TestNotificationsState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _TestNotificationsState extends State<TestNotifications> {
-   var flutterLocalNotificationsPlugin;
-  Future<void> showNotification() async {
-  var androidPlatformChannelSpecifics = AndroidNotificationDetails(
-    'channel_id',
-    'channel_name',
-   
-    importance: Importance.max,
-    priority: Priority.high,
-    playSound: true,
-  );
-   var platformChannelSpecifics = NotificationDetails(
-    android: androidPlatformChannelSpecifics,
-   
-  );
+class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    AwesomeNotifications().isNotificationAllowed().then((isAllowed) {
+      if (!isAllowed) {
+        AwesomeNotifications().requestPermissionToSendNotifications();
+      }
+    });
+    super.initState();
+  }
 
-  await flutterLocalNotificationsPlugin.show(
-    0,
-    'Notification Title',
-    'Notification Body',
-    platformChannelSpecifics,
-  );
-}
-   
- 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(child: ElevatedButton(
-  onPressed: showNotification,
-  child: Text('Show Notification'),
-),),
+      appBar: AppBar(
+        title: Text('Awesome Notifications Demo'),
+      ),
+      body: Center(
+        child: TextButton(
+          child: Text('Send Notification'),
+          onPressed: () {
+            sendNotification();
+          },
+        ),
+      ),
     );
   }
+}
+
+void sendNotification() async {
+  await AwesomeNotifications().createNotification(
+    content: NotificationContent(
+      id: 1,
+      channelKey: 'basic_channel',
+      title: 'New Message',
+      body: 'You have received a new message.',
+    ),
+  );
 }

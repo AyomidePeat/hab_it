@@ -41,10 +41,10 @@ dependencies:
   flutter_svg: ^2.0.5
   path_provider: ^2.0.15
   shared_preferences: ^2.1.1
-  table_calendar: ^3.0.9
+  awesome_notifications: ^0.7.4 
   #firebase_core: ^2.13.1
   #firebase_messaging: ^14.6.2
-  flutter_local_notifications: ^14.1.1
+  
 
 dev_dependencies:
   flutter_test:
