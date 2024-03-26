@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:hab_it/utils/colors.dart';
 import 'package:hab_it/utils/providers/frequency_provider.dart';
 import 'package:hab_it/widgets/custom_elevlated_button.dart';
+import '../utils/days.dart';
 import '../utils/textstyle.dart';
 import '../utils/theme.dart';
 import '../widgets/custom_container.dart';
@@ -17,8 +18,7 @@ class FrequencyScreen extends ConsumerStatefulWidget {
 
 class _FrequencyScreenState extends ConsumerState<FrequencyScreen> {
 
-  
-
+  bool isSelected = false;
   @override
   Widget build(BuildContext context) {
     final iconColor = ref.watch(themeNotifierProvider);
@@ -52,12 +52,16 @@ class _FrequencyScreenState extends ConsumerState<FrequencyScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 IntervalContainer(
-                    text: 'None', onPressed: frequencyRef.noneInterval, isPressed: frequencyRef.none),
+                    text: 'None',
+                    onPressed: frequencyRef.noneInterval,
+                    isPressed: frequencyRef.none),
                 const Divider(
                   thickness: 2,
                 ),
                 IntervalContainer(
-                    text: 'Daily', onPressed: frequencyRef.dailyInterval, isPressed: frequencyRef.daily),
+                    text: 'Daily',
+                    onPressed: frequencyRef.dailyInterval,
+                    isPressed: frequencyRef.daily),
                 const Divider(
                   thickness: 2,
                 ),
@@ -76,7 +80,8 @@ class _FrequencyScreenState extends ConsumerState<FrequencyScreen> {
             ),
           ),
           const SizedBox(height: 15),
-          if (frequencyRef.monthly || frequencyRef.weekly) Text('How many days?'.toUpperCase()),
+          if (frequencyRef.monthly || frequencyRef.weekly)
+            Text('How many days?'.toUpperCase()),
           const SizedBox(height: 15),
           if (frequencyRef.monthly)
             Row(
@@ -90,7 +95,8 @@ class _FrequencyScreenState extends ConsumerState<FrequencyScreen> {
                           horizontal: 8.0, vertical: 15),
                       child: Row(
                         children: [
-                          Text('${frequencyRef.days}', style: const TextStyle(fontSize: 18)),
+                          Text('${frequencyRef.days}',
+                              style: const TextStyle(fontSize: 18)),
                           const Text(' / month'),
                         ],
                       ),
@@ -119,7 +125,8 @@ class _FrequencyScreenState extends ConsumerState<FrequencyScreen> {
                           horizontal: 8.0, vertical: 15),
                       child: Row(
                         children: [
-                          Text('${frequencyRef.days}', style: const TextStyle(fontSize: 18)),
+                          Text('${frequencyRef.days}',
+                              style: const TextStyle(fontSize: 18)),
                           const Text(' / week'),
                         ],
                       ),
@@ -136,6 +143,32 @@ class _FrequencyScreenState extends ConsumerState<FrequencyScreen> {
                     child: const Icon(Icons.add, size: 15))
               ],
             ),
+          const SizedBox(height: 15),
+          if (frequencyRef.monthly || frequencyRef.weekly)
+            ConstrainedBox(
+                constraints: const BoxConstraints(maxHeight: 100),
+                child: GridView(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: days.length, crossAxisSpacing: 5),
+                  children: [
+                    for (int i = 0; i < days.length; i++)
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            isSelected = !isSelected;
+                          });
+                        },
+                        child: CustomContainer(
+                          width: 60,
+                          height: 50,
+                          child: Center(
+                            child: Text(days[i]),
+                          ),
+                        
+                        ),
+                      ),
+                  ],
+                ))
         ]),
       ),
     );

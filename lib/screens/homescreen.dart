@@ -1,7 +1,4 @@
-// ignore_for_file: must_be_immutable
-
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -25,7 +22,6 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
   String messageTitle = "Empty";
   String notificationAlert = "alert";
 
-  //static final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   List<Habit> habits = [];
   Future<List<Habit>> getHabits() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -83,7 +79,7 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
             Padding(
               padding: const EdgeInsets.all(20.0),
               child: Container(
-                height: 130,
+                height: 150,
                 width: size.width,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15),
@@ -109,7 +105,7 @@ class _HomeScreenConsumerState extends ConsumerState<HomeScreen> {
                     child: ListView.builder(
                         itemCount: habits.length,
                         itemBuilder: (context, index) {
-                          bool isCompleted = habits[index].isCompleted;
+                      
                           return ListTile(
                               title: HabitContainer(
                             currentDay: currentDate,

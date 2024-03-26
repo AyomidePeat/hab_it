@@ -2,7 +2,6 @@ import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hab_it/screens/splash_screen.dart';
-import 'package:hab_it/test_notif.dart';
 import 'package:hab_it/utils/theme.dart';
 
 void main() async {

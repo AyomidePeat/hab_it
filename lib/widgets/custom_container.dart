@@ -15,8 +15,8 @@ class CustomContainer extends ConsumerWidget {
       height: height,
       width: width,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(5),
-        color:theme.isDarkModeOn?const Color.fromARGB(66, 79, 79, 86): Color.fromARGB(26, 162, 25, 25)
+        borderRadius: BorderRadius.circular(5), 
+        color:theme.isDarkModeOn?const Color.fromARGB(66, 79, 79, 86): const Color.fromARGB(26, 162, 25, 25)
       ),
       child:child
     );

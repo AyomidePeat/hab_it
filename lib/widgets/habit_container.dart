@@ -17,10 +17,9 @@ class HabitContainer extends ConsumerWidget {
     required this.onPressed,
     required this.currentDay,
   });
-
+  int nextBoxIndex = 0;
   @override
   Widget build(BuildContext context, ref) {
-    final size = MediaQuery.of(context).size;
     return Container(
         padding: const EdgeInsets.all(10.0),
         height: 150,
@@ -78,41 +77,41 @@ class HabitContainer extends ConsumerWidget {
                     ),
                   ],
                 ),
-                SizedBox(
-                  width: 42,
-                  child: ElevatedButton(
-                    onPressed: onPressed,
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor:
+                InkWell(
+                  onTap: onPressed,
+                  child: Container(
+                    height: 30,width:30,
+                    decoration: BoxDecoration(
+                        color:
                             habit.isCompleted ? habit.color : habit.lightColor,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5))),
-                    child: const Icon(Icons.check),
+                        borderRadius: BorderRadius.circular(5)),
+                    child:
+                        const Icon(Icons.check, size: 15, color: Colors.white),
                   ),
                 )
               ],
             ),
             ConstrainedBox(
-              constraints: const BoxConstraints(maxWidth: double.infinity, maxHeight: 60),
-              child: GridView(scrollDirection: Axis.horizontal,
-                physics: ClampingScrollPhysics(), addAutomaticKeepAlives:true ,
+              constraints: const BoxConstraints(
+                  maxWidth: double.infinity, maxHeight: 60),
+              child: GridView(
+                scrollDirection: Axis.horizontal,
+                physics: ClampingScrollPhysics(),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 5,
-                    mainAxisExtent: 10,
-                    crossAxisSpacing: 5,
-                    mainAxisSpacing: 5),
-                children: [
-                  for (int i = 1; i <=10000 ; i++)
-                    StreakContainer(
-                      color: habit.isCompleted && i + 1 == currentDay
-                          ? habit.color
-                          : habit.lightColor,
-                      isCompleted: habit.completedDays.containsKey(i+1) ,
-                   
-                    )
-                ],
+                  crossAxisCount: 5,
+                  mainAxisExtent: 10, // Adjust the main axis extent as needed
+                  crossAxisSpacing: 5,
+                  mainAxisSpacing: 5,
+                ),
+                children: List.generate(10000, (index) {
+                  return StreakContainer(
+                    color:
+                        index == nextBoxIndex ? habit.color : habit.lightColor,
+                    isCompleted: habit.completedDays.containsKey(index + 1),
+                  );
+                }),
               ),
-            )
+            ),
           ],
         ));
   }
